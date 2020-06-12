@@ -26,6 +26,10 @@ public class UpdateArduinoService implements Command<ArduinoDto> {
 
 	@Override
 	public ArduinoDto execute() {
+		if(dto.temperatura>=60)
+			dto.state = "PELIGRO";
+		else
+			dto.state = "DISPONIBLE";
 		dto.id = repositoryFactory.getArduino().save(dtoAssemblerFactory.getArduino().dtoToEntity(dto)).getId();
 		return dto;
 	}

@@ -28,8 +28,14 @@ public class UpdateArduinoService implements Command<ArduinoDto> {
 	public ArduinoDto execute() {
 		if(dto.temperatura>=60)
 			dto.state = "PELIGRO";
-		else
+		else if(dto.peso != dto.presencia)
+			dto.state = "NO_DISPONIBLE";
+		else if(dto.peso && dto.presencia)
+			dto.state = "EN_USO";
+		else if(!dto.peso && !dto.presencia)
 			dto.state = "DISPONIBLE";
+		else 
+			dto.state = "NO_DISPONIBLE";
 		dto.id = repositoryFactory.getArduino().save(dtoAssemblerFactory.getArduino().dtoToEntity(dto)).getId();
 		return dto;
 	}
